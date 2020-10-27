@@ -1,0 +1,48 @@
+NEW_GW=$(sudo route | grep default | awk '{print $8}')
+
+if [ "$NEW_GW" = "pppoe0" ]; then
+   AGW="Active Gateway #1"
+elif [ "$NEW_GW" = "eth1" ]; then
+   AGW="Active Gateway #2"
+else
+   AGW="Unknown"
+fi
+
+#Check if gwfile exists
+if [ -e $GWFILE ]
+then
+  OLD_GW=`cat $GWFILE`
+else
+  OLD_GW="-"
+  echo $OLD_GW > $GWFILE
+fi
+
+STATUS=$?
+if [ $STATUS != 0 ] || [ -z "$NEW_GW" ] || [ -z "$OLD_GW" ]; then
+  echo -e "Exit Status: "$STATUS"\n"
+  exit $STATUS
+fi
+
+echo
+    
+if [ "$NEW_GW" != "$OLD_GW" ]; then
+  echo -e "Active GW: "'\e[1;32m' $AGW '\e[0m'
+  echo -e "   OLD GW: "'\e[1;32m' $OLD_GW '\e[0m'
+  echo -e "   New GW: "'\e[1;32m' $NEW_GW
+
+  #Send a Pushover notification
+  curl -s -F "token=place your app token here" \
+  -F "user=place your user token here" \
+  -F "title=Message from Router" \
+  -F "message=Active Gateway: $AGW" https://api.pushover.net/1/messages.json >/dev/null 2>&1
+
+  STATUS=$?
+  if [ $STATUS = 0 ]; then
+    echo $NEW_GW > $GWFILE
+  fi
+else
+  echo -e "   AGW: "'\e[1;33m' $AGW '\e[0m'
+  echo -e "Old GW: "'\e[1;33m' $OLD_GW '\e[0m'
+  echo -e "New GW: "'\e[1;33m' $NEW_GW
+fi
+echo -e '\e[0m'
