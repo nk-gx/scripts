@@ -9,7 +9,7 @@ Sends a Pushover notification each time the active gateway changes. Originally d
 ---------------
 Updates your subdomain at freedns.afraid.org with the current public ip and sends a Pushover notification each time the public ip changes. Originally developed for Edgerouter.
 
-<br><br>
+<br>
 
 ```css
 Note:
