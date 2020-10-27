@@ -1,12 +1,10 @@
 # Linux Scripts
 Here you will find a small collection of linux scripts that can make certain things easier.
 
-**Active Gateway**
-------------------
+### Active Gateway
 Sends a Pushover notification each time the active gateway changes. Originally developed for Edgerouter.
 
-**Public IP**
----------------
+### Public IP
 Updates your subdomain at freedns.afraid.org with the current public ip and sends a Pushover notification each time the public ip changes. Originally developed for Edgerouter.
 
 <br>
