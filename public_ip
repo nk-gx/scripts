@@ -1,7 +1,7 @@
 clear
 
 IPFILE=ip4.txt
-EXTURL=http://v4.ident.me
+EXTURL=http://api.ipify.org
 EXT_IP=$(curl -s -k $EXTURL)
 UPDURL="http://freedns.afraid.org/dynamic/update.php?place_subdomain_hash_here$EXT_IP"
 
